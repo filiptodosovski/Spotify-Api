@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 const SpotifyWebApi = require("spotify-web-api-node");
+const insertPlaylistForCategory = require('../db').insertPlaylistForCategory;
 
 const token = process.env.ACCESS_TOKEN;
 
@@ -16,6 +17,7 @@ async function getPlaylistsForCategory(req: Request, res: Response){
 
   for(let playlist_obj of playlist.body.playlists.items) {
     playlists.push({id: playlist_obj.id, playlist_name: playlist_obj.name})
+    insertPlaylistForCategory(playlist_obj.id, playlist_obj.name)
   }
 
   res.send(playlists)

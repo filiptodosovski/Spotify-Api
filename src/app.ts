@@ -25,7 +25,7 @@ const scopes = [
 ];
 
 const spotifyApi = new SpotifyWebApi({
-  redirectUri: 'http://localhost:8888/callback',
+  redirectUri: 'http://localhost:5000/callback',
   clientId: 'c63a4b92832b46b18ca31e9bdadd1b9d',
   clientSecret: '40a0b9f66e344e8c9ef5d8e6c484d00f'
 });
@@ -80,9 +80,9 @@ app.get('/callback', (req, res) => {
     });
 });
 
-app.listen(8888, () =>
+app.listen(5000, () =>
   console.log(
-    'HTTP Server up. Now go to http://localhost:8888/login in your browser.'
+    'HTTP Server up.'
   )
 );
 

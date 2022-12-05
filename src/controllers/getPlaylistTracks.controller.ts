@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 const SpotifyWebApi = require("spotify-web-api-node");
-require('dotenv').config();
-
+const insertTracks = require('../db').insertTracks;
 
 const token = process.env.ACCESS_TOKEN;
 
@@ -18,7 +17,8 @@ async function getPlaylistTracks(req: Request, res: Response) {
 
   for(let tracks_obj of tracks.body.items) {
     const track = tracks_obj.track
-    tracks_array.push({track_name: track.name, artist: track.artists[0].name})
+    tracks_array.push({track_id: track.id, track_name: track.name, artist: track.artists[0].name})
+    insertTracks(track.id, track.name, track.artists[0].name)
   }
 
   res.send(tracks_array)
