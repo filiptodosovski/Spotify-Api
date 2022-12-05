@@ -14,8 +14,8 @@ async function getPlaylistsForCategory(req: Request, res: Response){
 
   let playlists = []
 
-  for(let playlist_ex of playlist.body.playlists.items) {
-    playlists.push({id: playlist_ex.id, playlist_name: playlist_ex.name})
+  for(let playlist_obj of playlist.body.playlists.items) {
+    playlists.push({id: playlist_obj.id, playlist_name: playlist_obj.name})
   }
 
   res.send(playlists)
