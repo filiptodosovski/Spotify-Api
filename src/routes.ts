@@ -5,7 +5,7 @@ import getPlaylistsForCategory from './controllers/getPlaylistForCategory';
 
 
 function routes (app: Express) {
-  app.get('/userdata/token', getUserData),
+  app.get('/userdata', getUserData),
   app.get('/category', getCategory),
   app.get('/playlists', getPlaylistsForCategory)
 }
