@@ -1,26 +1,24 @@
-import { NextFunction, Request, Response } from "express";
 const SpotifyWebApi = require("spotify-web-api-node");
-import pool from "../db";
-
-
-const token = process.env.ACCESS_TOKEN;
+import pool from '../db'
+const { accessToken } = require('../../config') 
 
 const spotifyApi = new SpotifyWebApi();
-spotifyApi.setAccessToken(token);
+spotifyApi.setAccessToken(accessToken);
 
-const getCategory = (req: Request, res: Response) => {
+function getCategory() {
+  return new Promise ((resolve, reject) => 
   pool.query(
     "SELECT * FROM spotify_categories ORDER BY category_name ASC",
     (error: any, results: { rows: any }) => {
       if (error) {
-        throw error;
+        return reject(error);
       }
-      res.status(200).json(results.rows);
+        return resolve(results.rows);
     }
-  );
+  ));
 };
 
-const insertCategory = async (req: Request, res: Response) => {
+async function insertCategory() {
   const category = await spotifyApi.getCategories({
     offset: 1,
   });
@@ -28,6 +26,7 @@ const insertCategory = async (req: Request, res: Response) => {
   let id;
   let name;
 
+  return new Promise ((resolve, reject) => {
   for (let category_obj of category.body.categories.items) {
     id = category_obj.id;
     name = category_obj.name;
@@ -36,14 +35,13 @@ const insertCategory = async (req: Request, res: Response) => {
       [id, name],
       (error: any, results: { rows: any }) => {
         if (error) {
-          throw error;
+          return reject(error);
         }
-        // res.status(201).json({
-        //   status: "added to database",
-        // });
+          return resolve(results.rows)
       }
     );
   }
+})
 };
 
 module.exports = {
