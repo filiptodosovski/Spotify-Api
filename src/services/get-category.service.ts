@@ -1,5 +1,4 @@
 const SpotifyWebApi = require("spotify-web-api-node");
-import pool from '../db'
 const { accessToken } = require('../../config')
 const { AppDataSource } = require('../db')
 import Category from '../models/category.model';
@@ -25,16 +24,18 @@ async function getCategory() {
 
 async function insertCategory() {
   const fetch_category = await spotifyApi.getCategories({
-    offset: 1,
+    offset: 0,
+    limit: 39
   });
 
-  const category = new Category()
+
 
   const items = fetch_category.body.categories.items;
-  await Promise.all(items.map( async (element: { id: string; name: string; }) => {
+  await Promise.all(items.map( (element: { id: string; name: string; }) => {
+    let category = new Category()
+    let categoryRepository = AppDataSource.getRepository(Category);
     category.id = element.id;
     category.category_name = element.name;
-    const categoryRepository = AppDataSource.getRepository(Category);
     categoryRepository.save(category);
     console.log(category)
   }));

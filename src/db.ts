@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 import Category from './models/category.model'
+import Playlist from './models/playlists.model';
+import Track from './models/tracks.model';
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -9,21 +11,21 @@ export const AppDataSource = new DataSource({
   password: "1493",
   database: "postgres",
   synchronize: true,
-  logging: true,
-  entities: [Category]
+  logging: false,
+  entities: [Category, Playlist, Track]
 })
 
-const Pool = require("pg").Pool;
+// const Pool = require("pg").Pool;
 
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "postgres",
-  password: "1493",
-  port: 5432,
-});
+// const pool = new Pool({
+//   user: "postgres",
+//   host: "localhost",
+//   database: "postgres",
+//   password: "1493",
+//   port: 5432,
+// });
 
-export default pool
+// export default pool
 
 // pool.connect(function(err: Error) {
 //   if (err) throw err;
