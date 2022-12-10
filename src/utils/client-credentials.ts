@@ -4,16 +4,18 @@ var localStorage = new LocalStorage('./scratch');
 
 const SpotifyWebApi = require('spotify-web-api-node');
 const spotifyApi = new SpotifyWebApi({
-  clientId: 'c63a4b92832b46b18ca31e9bdadd1b9d',
-  clientSecret: '40a0b9f66e344e8c9ef5d8e6c484d00f'
+  clientId: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET
 });
 
+let token;
 
 spotifyApi.clientCredentialsGrant().
     then(function(result: { body: { access_token: any; }; }) {
         localStorage.setItem('token', result.body.access_token);
-        const token = localStorage.getItem('token')
+        token = localStorage.getItem('token')
         console.log(token)
+        return token
     }).catch(function(err: Error) {
         console.log('If this is printed, it probably means that you used invalid ' +
         'clientId and clientSecret values. Please check!');
@@ -21,6 +23,9 @@ spotifyApi.clientCredentialsGrant().
         console.log(err);
     });
 
+    module.exports = {
+        token: token
+    }
 
 // spotifyApi.clientCredentialsGrant().
 // then((data: { body: { [x: string]: any; }; }) => {

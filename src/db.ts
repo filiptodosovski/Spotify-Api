@@ -1,3 +1,18 @@
+import { DataSource } from 'typeorm';
+import Category from './models/category.model'
+
+export const AppDataSource = new DataSource({
+  type: "postgres",
+  host: "localhost",
+  port: 5432,
+  username: "postgres",
+  password: "1493",
+  database: "postgres",
+  synchronize: true,
+  logging: true,
+  entities: [Category]
+})
+
 const Pool = require("pg").Pool;
 
 const pool = new Pool({
@@ -8,6 +23,8 @@ const pool = new Pool({
   port: 5432,
 });
 
+export default pool
+
 // pool.connect(function(err: Error) {
 //   if (err) throw err;
 //   console.log("Connected!");
@@ -17,8 +34,6 @@ const pool = new Pool({
 //     console.log("Table created");
 //   });
 // });
-
-export default pool;
 
 // async function getCategory1() {
 //     const client = new Client({user: 'postgres', password: '1493', database: 'postgres'})
