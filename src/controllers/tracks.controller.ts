@@ -1,22 +1,19 @@
 import { Request, Response } from "express";
+import { BadRequest } from "../errorhandler/BadRequest";
 const getPlaylistTracks =
   require("../services/get-playlist-tracks.service").getPlaylistTracks;
-const insertPlaylistTracks =
-  require("../services/get-playlist-tracks.service").insertPlaylistTracks;
+
 
 const getTracks = async (req: Request, res: Response) => {
-  const tracks = await getPlaylistTracks();
-  return res.status(200).json(tracks);
+  try {
+    const tracks = await getPlaylistTracks();
+    return res.status(200).json(tracks);
+  } catch (error) {
+    throw new BadRequest("Api Bad Request")
+  }
 };
 
-const insertTracks = async (req: Request, res: Response) => {
-  await insertPlaylistTracks();
-  return res.status(200).json({
-    success: "added to database",
-  });
-};
 
 module.exports = {
-  getTracks,
-  insertTracks,
+  getTracks
 };

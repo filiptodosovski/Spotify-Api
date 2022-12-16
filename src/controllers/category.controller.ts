@@ -1,22 +1,43 @@
-import { Request, Response } from "express";
-const getCategory =
-  require("../services/get-category.service").getCategory;
-const insertCategory =
-  require("../services/get-category.service").insertCategory;
+import { NextFunction, Request, Response } from "express";
+import { BadRequest } from "../errorhandler/BadRequest";
+const getCategory = require("../services/get-category.service").getCategory;
+const getCategoryById = require('../services/get-category.service').getCategoryById
+import SpotifyPackage from '../packages/spotify.package'
 
-const getCategories = async (req: Request, res: Response) => {
-  const tracks = await getCategory();
-  return res.status(200).send(tracks);
+const getCategoriesFromSpotify = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+   const categories = await SpotifyPackage.getCategories()
+   return res.status(200).send(categories);
+  } catch (error) {
+    next(error)
+  }
+}
+
+
+const getCategories = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const categories = await getCategory();
+    return res.status(200).send(categories);
+  } catch (error) {
+    next(error)
+  }
 };
 
 const insertCategories = async (req: Request, res: Response) => {
-  await insertCategory();
-  return res.status(200).json({
-    success: "added to database",
-  });
+  try {
+    const id = req.params.id
+    const category = await getCategoryById(id);
+    return res.status(200).json(
+      category
+    );
+  } catch (error) {
+    throw new BadRequest("Api Bad Request")
+  }
 };
 
 module.exports = {
   getCategories,
   insertCategories,
+  getCategoryById,
+  getCategoriesFromSpotify
 };

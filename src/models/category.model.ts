@@ -1,6 +1,8 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, OneToMany, Unique } from 'typeorm';
+import Playlist from './playlists.model';
 
 @Entity('category')
+@Unique(["id"])
 export default class Category  {
   
   @PrimaryColumn()
@@ -8,4 +10,7 @@ export default class Category  {
 
   @Column()
   category_name!: string
+
+  @OneToMany(() => Playlist, (playlist => playlist.category))
+  playlist!: Playlist[]
 }

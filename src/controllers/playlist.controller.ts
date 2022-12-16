@@ -1,22 +1,32 @@
 import { Request, Response } from "express";
+import { BadRequest } from "../errorhandler/BadRequest";
 const getPlaylistForCategory =
   require("../services/get-playlist-for-category.service").getPlaylistForCategory;
-const insertPlaylistForCategory =
-  require("../services/get-playlist-for-category.service").insertPlaylistForCategory;
+const getPlaylistById =
+  require("../services/get-playlist-for-category.service").getPlaylistById;
 
 const getPlaylists = async (req: Request, res: Response) => {
-  const tracks = await getPlaylistForCategory();
-  return res.status(200).json(tracks);
+  try {
+    const playlists = await getPlaylistForCategory();
+    return res.status(200).json(playlists);
+  } catch (error) {
+    return res.send(error);
+  }
 };
 
-const insertPlaylists = async (req: Request, res: Response) => {
-  await insertPlaylistForCategory();
-  return res.status(200).json({
-    success: "added to database",
-  });
+const getPlaylistWithTracksById = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id
+    const playlist = await getPlaylistById(id);
+    return res.status(200).json(
+      playlist
+    );
+  } catch (error) {
+    throw new BadRequest("Api Bad Request")
+  }
 };
 
 module.exports = {
   getPlaylists,
-  insertPlaylists,
+  getPlaylistWithTracksById
 };

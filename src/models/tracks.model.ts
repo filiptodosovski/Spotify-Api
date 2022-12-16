@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToMany } from 'typeorm';
+import Playlist from './playlists.model';
 
 @Entity('tracks')
 export default class Track  {
@@ -11,4 +12,8 @@ export default class Track  {
 
   @Column()
   artist!: string
+
+  @ManyToMany(() => Playlist, (playlist) => playlist.track)
+  playlist!: Playlist
+
 }
