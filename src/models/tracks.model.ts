@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToMany} from 'typeorm';
 import Playlist from './playlists.model';
 
 @Entity('tracks')

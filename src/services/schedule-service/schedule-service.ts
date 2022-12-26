@@ -26,17 +26,19 @@ export class ScheduleService {
 
   private async syncPlaylistsAndTracks() {
     const allPlaylists = await this.playlistRepository.find();
-    console.log(allPlaylists)
   
     allPlaylists.forEach(async (element: any) => {
       const  tracksFromApi = await this.spotifyPackage.getPlaylistTracks(element.id)
       const tracks = tracksFromApi && tracksFromApi.body.items.map((element: any) => {
-        let track_info = element.track;
+        const track_info = element.track;
         const track = this.trackRepository.create({
           id: track_info.id,
           track_name: track_info.name,
           artist: track_info.artists[0].name
         })
+
+        this.trackRepository.upsert(track, ['id']);
+
         return track;
       })
   
@@ -54,12 +56,16 @@ export class ScheduleService {
     const fetch_category = await this.spotifyPackage.getCategories()
   
     fetch_category && fetch_category.body.categories.items.forEach(async (element: any) => {
-      const playlistsFromApi = await this.spotifyPackage.getPlaylistsForCategory(element.id)
+      const playlistsFromApi: any = await this.spotifyPackage.getPlaylistsForCategory(element.id)
+
       const playlists = playlistsFromApi && playlistsFromApi.body.playlists.items.map((element: any) => {
         const playlist = this.playlistRepository.create({
           id: element.id,
           playlist_name: element.name
         })
+
+        this.playlistRepository.upsert(playlist, ['id']);
+
         return playlist
       })
   
@@ -78,7 +84,7 @@ export class ScheduleService {
   }
 
   runSchedule () {
-    cron.schedule("1 * * * * *", () => {
+    cron.schedule(" 0 22 * * 1-5 ", () => {
       console.log("Running the Cron!")
       this.runTasks()
     });

@@ -16,7 +16,6 @@ async function getCategory() {
 
 async function getCategoryById(id: string) {
   const categoryRepository = AppDataSource.getRepository(Category);
-  // console.log(id)
   const allCategories = await categoryRepository.find({
     where: {
       id

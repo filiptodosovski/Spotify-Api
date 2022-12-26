@@ -12,9 +12,12 @@ export default class Playlist {
   playlist_name!: string
 
   @ManyToOne(() => Category, (category) => category.playlist)
-  category!: string;
+  category!: Category;
 
-  @ManyToMany(() => Track, (track) => track.playlist)
+  @ManyToMany(() => Track, (track) => track.playlist, {
+    nullable: true,
+    onUpdate: "NO ACTION"
+  })
   @JoinTable()
-  track!: Track
+  track!: Track[]
 }

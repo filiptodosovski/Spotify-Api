@@ -3,10 +3,9 @@ import { AppDataSource } from "./db";
 const playlistRoute = require("./routes/playlist.routes");
 const categoryRoute = require("./routes/category.routes");
 const tracksRoute = require("./routes/tracks.routes");
-var cron = require("node-cron");
-import {runTasks} from "./worker";
 import {BaseError} from './errorhandler/baseError'
 import { ScheduleService } from "./services/schedule-service/schedule-service";
+const cors = require("cors");
 
 AppDataSource.initialize()
   .then(() => {
@@ -35,5 +34,13 @@ app.use(
   )
 
 app.use(express.json());
+
+// const corsOptions ={
+//   origin:'*', 
+//   credentials:true,            //access-control-allow-credentials:true
+//   optionSuccessStatus:200,
+// }
+
+app.use(cors()) // Use this after the variable declaration
 
 export default app;

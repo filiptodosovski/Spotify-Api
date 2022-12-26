@@ -28,7 +28,7 @@ class SpotifyPackage {
      try {
       return await this.spotifyApi.getCategories({
         offset: 0,
-        limit: 39
+        country: 'US'
       });
      } catch (error) {
       await this.handleError(() => this.getCategories(numOfTries-1), numOfTries, error)
@@ -37,7 +37,10 @@ class SpotifyPackage {
 
   async getPlaylistsForCategory(categoryId: string, numOfTries: number = 3) {
     try {
-     return await this.spotifyApi.getPlaylistsForCategory(categoryId);
+     return await this.spotifyApi.getPlaylistsForCategory(categoryId, {
+      offset: 0,
+      limit: 5,
+     });
     } catch (error) {
      await this.handleError(() => this.getPlaylistsForCategory(categoryId, numOfTries-1), numOfTries, error)
     } 
@@ -46,7 +49,7 @@ class SpotifyPackage {
  async getPlaylistTracks(playlistId: string, numOfTries = 3) {
   try {
     return await this.spotifyApi.getPlaylistTracks(playlistId, {
-      offset: 1,
+      offset: 0,
       limit: 2
     });
   } catch (error) {
@@ -54,6 +57,7 @@ class SpotifyPackage {
   }
  }
 }
+
 
 export type {SpotifyPackage as TSpotifyPackage}
 

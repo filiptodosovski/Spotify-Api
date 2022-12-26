@@ -1,0 +1,28 @@
+body {
+  margin-bottom: -10px;
+}
+
+.catid.title {
+  background-color: rgb(8, 234, 204);
+}
+
+.titletext {
+  color: aliceblue;
+  text-align: center;
+  font-size: 1.4rem;
+}
+
+.fronttext {
+  font-size: 30px;
+  text-align: center;
+  color:rgb(4, 4, 78) ;
+}
+
+.header.header{
+  background-color: white;
+}
+
+.site-layout {
+  background-color: rgb(186, 199, 210);
+  margin-right: -8.3px;
+}

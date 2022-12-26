@@ -1,17 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { BadRequest } from "../errorhandler/BadRequest";
 const getCategory = require("../services/get-category.service").getCategory;
-const getCategoryById = require('../services/get-category.service').getCategoryById
-import SpotifyPackage from '../packages/spotify.package'
+const getCategoryById = require('../services/get-category.service').getCategoryById;
 
-const getCategoriesFromSpotify = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-   const categories = await SpotifyPackage.getCategories()
-   return res.status(200).send(categories);
-  } catch (error) {
-    next(error)
-  }
-}
 
 
 const getCategories = async (req: Request, res: Response, next: NextFunction) => {
@@ -38,6 +29,5 @@ const insertCategories = async (req: Request, res: Response) => {
 module.exports = {
   getCategories,
   insertCategories,
-  getCategoryById,
-  getCategoriesFromSpotify
+  getCategoryById
 };

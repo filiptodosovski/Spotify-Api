@@ -11,6 +11,6 @@ export default class Category  {
   @Column()
   category_name!: string
 
-  @OneToMany(() => Playlist, (playlist => playlist.category))
+  @OneToMany(() => Playlist, (playlist) => playlist.category)
   playlist!: Playlist[]
 }
