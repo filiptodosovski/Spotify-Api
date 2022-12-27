@@ -34,10 +34,24 @@ interface DataType {
 
 const tracksColumns: ColumnsType<DataType> = [
   {
+    dataIndex: 'image',
+    render: (theImageURL) => (
+      <>
+      <img height={100} src={theImageURL}></img>
+      </>
+    ) 
+  },
+  {
+    title: "Album Name",
+    dataIndex: "album",
+    key: "album",
+    width: 200
+  },
+  {
     title: "Track ID",
     dataIndex: "id",
     key: "id",
-    width: 400,
+    width: 300,
   },
   {
     title: "Track Name",

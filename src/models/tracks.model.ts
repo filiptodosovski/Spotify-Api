@@ -13,6 +13,12 @@ export default class Track  {
   @Column()
   artist!: string
 
+  @Column()
+  image!: string
+
+  @Column()
+  album!: string
+
   @ManyToMany(() => Playlist, (playlist) => playlist.track)
   playlist!: Playlist
 

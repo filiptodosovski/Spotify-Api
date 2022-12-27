@@ -42,6 +42,11 @@ interface DataType {
 
 const playlistColumns: ColumnsType<DataType> = [
   {
+    dataIndex: "image",
+    width: 50,
+    render: theImageURL => <img height={100} alt={theImageURL} src={theImageURL}></img>
+  },
+  {
     title: "Playlist ID",
     dataIndex: "id",
     key: "id",

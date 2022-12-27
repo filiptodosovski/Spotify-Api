@@ -8,9 +8,9 @@ spotifyApi.setAccessToken(accessToken);
 
 async function getCategory() {
   const categoryRepository = AppDataSource.getRepository(Category);
-  const allCategories = await categoryRepository.find({
-    relations: ["playlist"]
-  });
+  const allCategories = await categoryRepository.createQueryBuilder("category")
+  .innerJoinAndSelect("category.playlist", "playlist")
+  .getMany()
   return allCategories;
 }
 

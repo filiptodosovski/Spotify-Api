@@ -11,6 +11,9 @@ export default class Playlist {
   @Column()
   playlist_name!: string
 
+  @Column()
+  image!: string
+
   @ManyToOne(() => Category, (category) => category.playlist)
   category!: Category;
 
